@@ -15,7 +15,7 @@ module GReader
     end
 
     def kv_map(hash)
-      hash.map { |k, v| '%s=%s' % [CGI.escape(k.to_s), URI.escape(v.to_s)] }.join('&') unless hash.empty?
+      hash.map { |k, v| '%s=%s' % [CGI.escape(k.to_s), URI.escape(v.to_s)] }.join('&') unless hash.nil? || hash.empty?
     end
   end
 end
