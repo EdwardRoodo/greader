@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/rstacruz/greader.rb"
   s.files = Dir["{lib,test}/**/*", "*.md", "Rakefile"].reject { |f| File.directory?(f) }
 
-  s.add_dependency "nokogiri", "~> 1.4.4"
+  s.add_dependency "nokogiri"#, "~> 1.4.4"
   s.add_dependency "rest-client", "~> 1.6"
 end
 
