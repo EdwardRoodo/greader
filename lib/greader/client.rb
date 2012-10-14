@@ -32,7 +32,7 @@ module GReader
   #
   class Client
     include Utilities
-    
+
     AUTH_URL   = "https://www.google.com/accounts/ClientLogin"
     API_URL    = "http://www.google.com/reader/api/0/"
 
@@ -42,7 +42,7 @@ module GReader
     # Constructor.
     #
     # The constructor can be called without args, but you won't be able to
-    # do anything that requires authentication (which is pretty much 
+    # do anything that requires authentication (which is pretty much
     # everything).
     #
     def initialize(options={})
@@ -86,10 +86,10 @@ module GReader
     def feeds
       @feeds ||= begin
         list = json_get('subscription/list')['subscriptions']
-        list.inject({}) do |h, item| 
+        list.inject({}) do |h, item|
           feed = Feed.new(self, item)
           h[feed.to_param] = feed
-          h 
+          h
         end
       end
       @feeds.values.sort
@@ -151,11 +151,8 @@ module GReader
     end
 
     def oauth_request(meth, url, options={})
-      if meth == :get
-        @oauth_token.get url + '?' + kv_map(options[:params])
-      elsif meth == :post
-        @oauth_token.post url, options
-      end.body
+      # url = url + kv_map(options[:params]) if meth == :get  # TODO: why this doesn't work and in what case do we need that?
+      RestClient.send meth, url, :params => options, :Authorization => "OAuth #{@oauth_token}"
     end
   end
 end
