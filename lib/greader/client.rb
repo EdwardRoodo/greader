@@ -151,8 +151,11 @@ module GReader
     end
 
     def oauth_request(meth, url, options={})
-      # url = url + kv_map(options[:params]) if meth == :get  # TODO: why this doesn't work and in what case do we need that?
-      RestClient.send meth, url, :params => options, :Authorization => "OAuth #{@oauth_token}"
+      if meth == :post
+        RestClient.send meth, url, options, :Authorization => "OAuth #{@oauth_token}"
+      else
+        RestClient.send meth, url, :params => options, :Authorization => "OAuth #{@oauth_token}"
+      end
     end
   end
 end
