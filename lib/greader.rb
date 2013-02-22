@@ -82,7 +82,7 @@ module GReader
   # Processes an HTML snippet through the given HTML
   # processors.
   def self.process_html(str)
-    html = str.dup
+    html = str ? str.dup : ""
     html_processors.each { |proc| html = proc.call(html) }
     html
   end
