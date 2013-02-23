@@ -81,6 +81,23 @@ module GReader
     def expire!
       @feeds = nil
       @tags  = nil
+      @unreadlist = nil
+    end
+
+    def subscribe( feed_url )
+      options = { "s" => "feed/#{feed_url}", "ac" => "subscribe", "T" => token }
+      post('subscription/edit', options)
+    end
+
+    def unsubscribe( feed_url )
+      options = { "s" => "feed/#{feed_url}", "ac" => "unsubscribe", "T" => token }
+      post('subscription/edit', options)
+    end
+
+    def unread_list
+      @unreadlist ||= begin
+         json_get('stream/contents/user/-/state/com.google/reading-list', { "r" => "d", "xt" => "user/-/state/com.google/read", "n" => "2" } )
+      end
     end
 
     def feeds
