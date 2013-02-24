@@ -94,9 +94,12 @@ module GReader
       post('subscription/edit', options)
     end
 
-    def unread_list
-      @unreadlist ||= begin
-         json_get('stream/contents/user/-/state/com.google/reading-list', { "r" => "d", "xt" => "user/-/state/com.google/read", "n" => "2" } )
+    def unread_list(limit = nil)
+      param = {"r" => "d", "xt" => "user/-/state/com.google/read"}
+      param["n"] = limit if limit
+      doc = json_get('stream/contents/user/-/state/com.google/reading-list', param)
+      contents = doc['items'].map do |node|
+        Entry.new self, Entry.parse_json(node)
       end
     end
 

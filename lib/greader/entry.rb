@@ -130,6 +130,11 @@ module GReader
       @starred
     end
 
+    def mark_read
+      options = {"a" => "user/-/state/com.google/read", "i" => self.id, "T" => @client.token}
+      @client.post('edit-tag', options)
+    end
+
     # Converts a Noko XML node into a simpler Hash.
     def self.parse_json(doc)
       summary = (doc['content'] || doc['summary'])
